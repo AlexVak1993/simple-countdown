@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.maintenance {
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
+  padding: 35px 20px;
+}
+
+.maintenance__imgs {
+  display: flex;
+}
+
+.maintenance__imgs img {
+  width: 100%;
+  height: auto;
+}
+
+.maintenance__content {
+  width: 100%;
+}
+
+.maintenance__wrapper h2 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.maintenance__countdown {
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.maintenance__progress {
+  display: block;
+  height: 12px;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 35px;
+  border-radius: 17px;
+  background-color: #efefef;
+}
+
+.maintenance__progressBar {
+  display: block;
+  height: 100%;
+  background-color: #209550;
+  width: 0;
+  border-radius: 17px;
+  transition: width 0.2s;
+}
+
+@media screen and (min-width: 998px) {
+  .maintenance {
+    flex-direction: row;
+  }
+
+  .maintenance__wrapper h2 {
+    font-size: 48px;
+    text-align: left;
+  }
+
+  .maintenance__countdown {
+    font-size: 16px;
+  }
+
+  .maintenance__list div {
+    font-size: 20px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .maintenance__wrapper h1 {
+    margin-bottom: 70px;
+  }
+
+  .maintenance__progress {
+    margin-bottom: 60px;
+  }
+}
