@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <title>Countdown</title>
+  <script>
+    const start = new Date(Date.UTC(2023, 6, 12, 16, 30, 0));
+    const end = new Date(Date.UTC(2023, 6, 20, 16, 13, 0));
+    const endAir = new Date(Date.UTC(2023, 6, 21, 4, 0, 0));
+    const releaseNotes = [
+    ];
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-family: "Roboto", sans-serif;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .maintenance {
+      min-height: 100vh;
+      margin: 0 auto;
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column-reverse;
+      padding: 35px 20px;
+    }
+
+    .maintenance__content {
+      width: 100%;
+    }
+
+    .maintenance__wrapper h1 {
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1.2;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .maintenance__countdown {
+      font-weight: 500;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .maintenance__progress {
+      display: block;
+      height: 12px;
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 35px;
+      border-radius: 17px;
+      background-color: #efefef;
+    }
+
+    .maintenance__progressBar {
+      display: block;
+      height: 100%;
+      background-color: #209550;
+      width: 0;
+      border-radius: 17px;
+      transition: width 0.2s;
+    }
+
+    @media screen and (min-width: 998px) {
+      .maintenance {
+        flex-direction: row;
+      }
+
+      .maintenance__wrapper h1 {
+        font-size: 48px;
+        text-align: left;
+      }
+
+      .maintenance__countdown {
+        font-size: 16px;
+      }
+
+      .maintenance__list div {
+        font-size: 20px;
+      }
+    }
+
+    @media screen and (min-width: 1440px) {
+      .maintenance__wrapper h1 {
+        margin-bottom: 70px;
+      }
+
+      .maintenance__progress {
+        margin-bottom: 60px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="maintenance">
+    <div class="maintenance__content">
+      <div class="maintenance__wrapper">
+        <h1>До отьезда из Львова</h1>
+        <div class="maintenance__countdown">
+          Time left
+          <span id="countdown"></span>
+        </div>
+        <div id="progress" class="maintenance__progress">
+          <div id="progressBar" class="maintenance__progressBar"></div>
+        </div>
+
+      </div>
+      <div class="maintenance__wrapper">
+        <h1>Самолет из Польши через:</h1>
+        <div class="maintenance__countdown">
+          Time left
+          <span id="countdownAir"></span>
+        </div>
+        <div id="progressAir" class="maintenance__progress">
+          <div id="progressBarAir" class="maintenance__progressBar"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const getProgressPercent = (startTime, endTime) => {
+      const diff = Date.parse(endTime) - Date.parse(startTime);
+      const totalTime = Math.ceil(diff / 1000);
+      const diff2 = Date.parse(new Date()) - Date.parse(startTime);
+      const runningTime = Math.ceil(diff2 / 1000);
+      const percent = parseInt((runningTime / totalTime) * 100);
+
+      if (percent >= 100) return "100%";
+
+      return percent + "%";
+    };
+
+    const getTimeRemaining = (endTime) => {
+      const t = Date.parse(endTime) - Date.parse(new Date());
+      const seconds = Math.floor((t / 1000) % 60);
+      const minutes = Math.floor((t / 1000 / 60) % 60);
+      const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+      const days = Math.floor(t / (1000 * 60 * 60 * 24));
+
+      return {
+        total: t,
+        days: days,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds,
+      };
+    };
+
+    const initializeClock = (startTime, endTime) => {
+      const countdown = document.querySelector("#countdown");
+      const progressBar = document.querySelector("#progressBar");
+
+      const updateClock = () => {
+        const time = getTimeRemaining(endTime);
+        const percent = getProgressPercent(startTime, endTime);
+
+        countdown.innerHTML =
+          ("0" + time.days) +
+          "d : " +
+          ("0" + time.hours).slice(-2) +
+          "h : " +
+          ("0" + time.minutes).slice(-2) +
+          "m : " +
+          ("0" + time.seconds).slice(-2) +
+          "s";
+        progressBar.style.width = percent;
+
+        if (time.total <= 0) {
+          countdown.innerHTML = "finished";
+          clearInterval(timeInterval);
+        }
+      };
+
+      updateClock();
+      var timeInterval = setInterval(updateClock, 1000);
+    };
+
+    const initializeAirClock = (startTime, endTime) => {
+      const countdown = document.querySelector("#countdownAir");
+      const progressBar = document.querySelector("#progressBarAir");
+
+      const updateClock = () => {
+        const time = getTimeRemaining(endTime);
+        const percent = getProgressPercent(startTime, endTime);
+
+        countdown.innerHTML =
+          ("0" + time.days) +
+          "d : " +
+          ("0" + time.hours).slice(-2) +
+          "h : " +
+          ("0" + time.minutes).slice(-2) +
+          "m : " +
+          ("0" + time.seconds).slice(-2) +
+          "s";
+        progressBar.style.width = percent;
+
+        if (time.total <= 0) {
+          countdown.innerHTML = "finished";
+          clearInterval(timeInterval);
+        }
+      };
+
+      updateClock();
+      var timeInterval = setInterval(updateClock, 1000);
+    };
+
+    initializeClock(start, end);
+    initializeAirClock(start, endAir);
+  </script>
+</body>
+
+</html>
