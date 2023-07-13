@@ -10,6 +10,12 @@ body {
   margin: 0;
 }
 
+#weather > p {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
 .maintenance {
   min-height: 100vh;
   margin: 0 auto;
@@ -70,6 +76,11 @@ body {
 }
 
 @media screen and (min-width: 998px) {
+  #weather > p {
+    font-size: 30px;
+    text-align: left;
+  }
+
   .maintenance {
     flex-direction: row;
   }
