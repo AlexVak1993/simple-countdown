@@ -158,14 +158,15 @@
 
     window.onload = function () {
 
-      fetch('https://api.openweathermap.org/data/2.5/weather?q=Corfu&appid=7c97e8fad4900fac1fc228f5bd7d97d1&units=metric')
+      fetch('https://api.openweathermap.org/data/2.5/weather?q=Corfu&lang=ru&appid=7c97e8fad4900fac1fc228f5bd7d97d1&units=metric')
         .then(response => response.json())
         .then(data => {
           const weatherDiv = document.getElementById('weather');
           weatherDiv.innerHTML = `
-          <p>Location: ${data.name}</p>
-          <p>Temperature: ${data.main.temp}°C</p>
-          <p>Description: ${data.weather[0].description}</p>
+          <p>Локация: ${data.name}</p>
+          <p>Температура: ${data.main.temp}°C</p>
+          <p>Ощущается как: ${data.main.feels_like}°C</p>
+          <p>Погода: ${data.weather[0].description}</p>
         `;
         })
         .catch(error => {
